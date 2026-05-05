@@ -69,11 +69,15 @@ function renderList(el, rows, mapper) {
 async function loadCategories() {
   const rows = await api("/api/v1/categories");
   renderList($("categoriesList"), rows, (x) => `#${x.category_id} - ${x.name}`);
+  const stat = $("statCategories");
+  if (stat) stat.textContent = String(rows.length);
 }
 
 async function loadManufacturers() {
   const rows = await api("/api/v1/manufacturers");
   renderList($("manufacturersList"), rows, (x) => `#${x.manufacturer_id} - ${x.name}${x.country ? ` (${x.country})` : ""}`);
+  const stat = $("statManufacturers");
+  if (stat) stat.textContent = String(rows.length);
 }
 
 async function loadComponents() {
@@ -83,6 +87,22 @@ async function loadComponents() {
     rows,
     (x) => `#${x.component_id} - ${x.name} ${x.model || ""} | SKU: ${x.sku} | ${x.price} руб.`
   );
+  const stat = $("statComponents");
+  if (stat) stat.textContent = String(rows.length);
+}
+
+function initSidebarMenu() {
+  const buttons = Array.from(document.querySelectorAll(".menu-btn"));
+  if (!buttons.length) return;
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      buttons.forEach((x) => x.classList.remove("active"));
+      btn.classList.add("active");
+      const targetId = btn.getAttribute("data-target");
+      const target = targetId ? document.getElementById(targetId) : null;
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
 }
 
 function formData(form) {
@@ -241,6 +261,7 @@ if (toggleDocsFrame && docsFrameWrap) {
 }
 
 initTheme();
+initSidebarMenu();
 
 Promise.all([loadCategories(), loadManufacturers(), loadComponents()]).catch(() => {
   showToast("Сервер отвечает, но часть данных пока не загружена", false);
