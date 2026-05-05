@@ -7,47 +7,63 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <header class="topbar">
-      <div>
-        <h1>Каталог комплектующих ПК</h1>
-        <p>Лабораторная работа: одностраничный интерфейс веб-приложения</p>
-      </div>
-      <button id="themeToggle" type="button" class="theme-toggle" aria-label="Переключить тему">
-        <span id="themeToggleIcon">Dark</span>
-        <span id="themeToggleText">Темная</span>
-      </button>
-    </header>
-
-    <main class="container">
-      <section class="card">
-        <h2>О приложении</h2>
-        <p class="muted">
-          Интерфейс для работы с REST API: категории, производители, комплектующие, склад и характеристики.
-        </p>
-      </section>
-
-      <section class="card">
-        <h2>Быстрые действия</h2>
-        <div class="actions">
-          <button id="btnLoadAll">Обновить все списки</button>
-          <button id="btnSeedHint" class="secondary">Показать подсказку</button>
-        </div>
-        <p id="hint" class="hint hidden">
-          Для добавления/изменения данных нужен режим администратора.
-        </p>
-      </section>
-
-      <section class="grid">
-        <article class="card">
-          <h2>Настройки</h2>
+    <div class="app-shell">
+      <aside class="sidebar card">
+        <h2>Панель</h2>
+        <nav class="menu">
+          <button class="menu-btn active" data-target="dashboardSection">Дашборд</button>
+          <button class="menu-btn" data-target="categoriesSection">Категории</button>
+          <button class="menu-btn" data-target="manufacturersSection">Производители</button>
+          <button class="menu-btn" data-target="componentsSection">Комплектующие</button>
+          <button class="menu-btn" data-target="stockSection">Склад</button>
+          <button class="menu-btn" data-target="specSection">Характеристики</button>
+          <button class="menu-btn" data-target="apiSection">API</button>
+        </nav>
+        <div class="settings-box">
           <label class="inline">
             <input type="checkbox" id="adminMode" checked />
-            Режим admin (для добавления/изменения)
+            Режим admin
           </label>
-          <p class="muted">GET-запросы работают без admin-режима.</p>
-        </article>
+          <p class="muted">Для POST/PUT нужен admin.</p>
+        </div>
+      </aside>
 
-        <article class="card">
+      <main class="container">
+        <header class="topbar card">
+          <div>
+            <h1>Каталог комплектующих ПК</h1>
+            <p>Лабораторная работа №5 — интерфейс веб-приложения</p>
+          </div>
+          <button id="themeToggle" type="button" class="theme-toggle" aria-label="Переключить тему">
+            <span id="themeToggleIcon">Dark</span>
+            <span id="themeToggleText">Темная</span>
+          </button>
+        </header>
+
+        <section id="dashboardSection" class="card section-card">
+          <h2>Дашборд</h2>
+          <div class="stats-grid">
+            <article class="stat-card">
+              <span>Категории</span>
+              <strong id="statCategories">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Производители</span>
+              <strong id="statManufacturers">0</strong>
+            </article>
+            <article class="stat-card">
+              <span>Товары</span>
+              <strong id="statComponents">0</strong>
+            </article>
+          </div>
+          <div class="actions">
+            <button id="btnLoadAll">Обновить все списки</button>
+            <button id="btnSeedHint" class="secondary">Показать подсказку</button>
+          </div>
+          <p id="hint" class="hint hidden">Для добавления/изменения данных нужен режим администратора.</p>
+        </section>
+
+        <section id="categoriesSection" class="card section-card">
           <h2>Категории</h2>
           <form id="categoryForm">
             <input name="name" placeholder="Название категории" required />
@@ -56,9 +72,9 @@
           </form>
           <button id="loadCategories" class="secondary">Показать категории</button>
           <ul id="categoriesList"></ul>
-        </article>
+        </section>
 
-        <article class="card">
+        <section id="manufacturersSection" class="card section-card">
           <h2>Производители</h2>
           <form id="manufacturerForm">
             <input name="name" placeholder="Название производителя" required />
@@ -67,9 +83,9 @@
           </form>
           <button id="loadManufacturers" class="secondary">Показать производителей</button>
           <ul id="manufacturersList"></ul>
-        </article>
+        </section>
 
-        <article class="card">
+        <section id="componentsSection" class="card section-card">
           <h2>Комплектующие</h2>
           <form id="componentForm">
             <input name="category_id" placeholder="ID категории" required />
@@ -84,9 +100,9 @@
           </form>
           <button id="loadComponents" class="secondary">Показать товары</button>
           <ul id="componentsList"></ul>
-        </article>
+        </section>
 
-        <article class="card">
+        <section id="stockSection" class="card section-card">
           <h2>Склад</h2>
           <form id="stockForm">
             <input name="component_id" placeholder="ID товара" required />
@@ -98,9 +114,9 @@
             <button type="submit" class="secondary">Показать остаток</button>
           </form>
           <pre id="stockResult"></pre>
-        </article>
+        </section>
 
-        <article class="card">
+        <section id="specSection" class="card section-card">
           <h2>Характеристики</h2>
           <form id="specForm">
             <input name="name" placeholder="Название характеристики" required />
@@ -119,14 +135,14 @@
             <button type="submit" class="secondary">Показать характеристики товара</button>
           </form>
           <pre id="specResult"></pre>
-        </article>
-      </section>
+        </section>
 
-      <section class="card">
-        <h2>Документация API</h2>
-        <p><a href="/docs" target="_blank" rel="noreferrer">Открыть Swagger UI</a></p>
-      </section>
-    </main>
+        <section id="apiSection" class="card section-card">
+          <h2>Документация API</h2>
+          <p><a href="/docs" target="_blank" rel="noreferrer">Открыть Swagger UI</a></p>
+        </section>
+      </main>
+    </div>
 
     <div id="toast" class="toast hidden"></div>
     <script src="/app.js"></script>
