@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Каталог комплектующих ПК</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>Каталог комплектующих ПК</h1>
+        <p>Лабораторная работа: одностраничный интерфейс веб-приложения</p>
+      </div>
+      <button id="themeToggle" type="button" class="theme-toggle" aria-label="Переключить тему">
+        <span id="themeToggleIcon">Dark</span>
+        <span id="themeToggleText">Темная</span>
+      </button>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2>О приложении</h2>
+        <p class="muted">
+          Интерфейс для работы с REST API: категории, производители, комплектующие, склад и характеристики.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Быстрые действия</h2>
+        <div class="actions">
+          <button id="btnLoadAll">Обновить все списки</button>
+          <button id="btnSeedHint" class="secondary">Показать подсказку</button>
+        </div>
+        <p id="hint" class="hint hidden">
+          Для добавления/изменения данных нужен режим администратора.
+        </p>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Настройки</h2>
+          <label class="inline">
+            <input type="checkbox" id="adminMode" checked />
+            Режим admin (для добавления/изменения)
+          </label>
+          <p class="muted">GET-запросы работают без admin-режима.</p>
+        </article>
+
+        <article class="card">
+          <h2>Категории</h2>
+          <form id="categoryForm">
+            <input name="name" placeholder="Название категории" required />
+            <input name="parent_id" placeholder="ID родителя (необязательно)" />
+            <button type="submit">Добавить категорию</button>
+          </form>
+          <button id="loadCategories" class="secondary">Показать категории</button>
+          <ul id="categoriesList"></ul>
+        </article>
+
+        <article class="card">
+          <h2>Производители</h2>
+          <form id="manufacturerForm">
+            <input name="name" placeholder="Название производителя" required />
+            <input name="country" placeholder="Страна (необязательно)" />
+            <button type="submit">Добавить производителя</button>
+          </form>
+          <button id="loadManufacturers" class="secondary">Показать производителей</button>
+          <ul id="manufacturersList"></ul>
+        </article>
+
+        <article class="card">
+          <h2>Комплектующие</h2>
+          <form id="componentForm">
+            <input name="category_id" placeholder="ID категории" required />
+            <input name="manufacturer_id" placeholder="ID производителя" required />
+            <input name="name" placeholder="Название" required />
+            <input name="model" placeholder="Модель" />
+            <input name="sku" placeholder="SKU" required />
+            <input name="price" placeholder="Цена" required />
+            <input name="warranty_months" placeholder="Гарантия (мес.)" />
+            <input name="description" placeholder="Описание" />
+            <button type="submit">Добавить товар</button>
+          </form>
+          <button id="loadComponents" class="secondary">Показать товары</button>
+          <ul id="componentsList"></ul>
+        </article>
+
+        <article class="card">
+          <h2>Склад</h2>
+          <form id="stockForm">
+            <input name="component_id" placeholder="ID товара" required />
+            <input name="quantity" placeholder="Новое количество" required />
+            <button type="submit">Обновить остаток</button>
+          </form>
+          <form id="stockGetForm" class="inline-form">
+            <input name="component_id" placeholder="ID товара для просмотра" required />
+            <button type="submit" class="secondary">Показать остаток</button>
+          </form>
+          <pre id="stockResult"></pre>
+        </article>
+
+        <article class="card">
+          <h2>Характеристики</h2>
+          <form id="specForm">
+            <input name="name" placeholder="Название характеристики" required />
+            <button type="submit">Добавить характеристику</button>
+          </form>
+
+          <form id="componentSpecForm" class="spaced">
+            <input name="component_id" placeholder="ID товара" required />
+            <input name="spec_id" placeholder="ID характеристики" required />
+            <input name="value" placeholder="Значение" required />
+            <button type="submit">Привязать характеристику</button>
+          </form>
+
+          <form id="componentSpecGetForm" class="inline-form">
+            <input name="component_id" placeholder="ID товара для просмотра характеристик" required />
+            <button type="submit" class="secondary">Показать характеристики товара</button>
+          </form>
+          <pre id="specResult"></pre>
+        </article>
+      </section>
+
+      <section class="card">
+        <h2>Документация API</h2>
+        <p><a href="/docs" target="_blank" rel="noreferrer">Открыть Swagger UI</a></p>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>
