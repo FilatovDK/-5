@@ -7,7 +7,7 @@ function setTheme(mode) {
   document.body.setAttribute("data-theme", isLight ? "light" : "dark");
   const icon = $("themeToggleIcon");
   const text = $("themeToggleText");
-  if (icon) icon.textContent = isLight ? "Light" : "Dark";
+  if (icon) icon.textContent = isLight ? "light" : "dark";
   if (text) text.textContent = isLight ? "Светлая" : "Темная";
 }
 
